@@ -32,10 +32,16 @@ func pollardRho(n *big.Int) *big.Int {
 	if new(big.Int).Mod(n, bigTwo).Sign() == 0 {
 		return bigTwo
 	}
-	x, _ := rand.Int(rand.Reader, new(big.Int).Sub(n, bigTwo))
+	x, err := rand.Int(rand.Reader, new(big.Int).Sub(n, bigTwo))
+	if err != nil {
+		return nil
+	}
 	x.Add(x, bigTwo)
 	y := new(big.Int).Set(x)
-	c, _ := rand.Int(rand.Reader, new(big.Int).Sub(n, bigOne))
+	c, err := rand.Int(rand.Reader, new(big.Int).Sub(n, bigOne))
+	if err != nil {
+		return nil
+	}
 	c.Add(c, bigOne)
 	d := new(big.Int).Set(bigOne)
 
@@ -101,6 +107,9 @@ func RSA(operation string, params map[string]string) (map[string]string, error) 
 		)
 		e := big.NewInt(65537)
 		d := new(big.Int).ModInverse(e, phi)
+		if d == nil {
+			return nil, fmt.Errorf("failed to compute private exponent: gcd(e, phi) != 1")
+		}
 
 		return map[string]string{
 			"public_key_n":  n.String(),
@@ -129,7 +138,12 @@ func RSA(operation string, params map[string]string) (map[string]string, error) 
 		}, nil
 
 	case "decrypt":
-		c, ok1 := new(big.Int).SetString(params["ciphertext"], 10)
+		cipherRaw := strings.TrimSpace(params["ciphertext"])
+		base := 10
+		if strings.HasPrefix(strings.ToLower(cipherRaw), "0x") {
+			base = 0
+		}
+		c, ok1 := new(big.Int).SetString(cipherRaw, base)
 		n, ok2 := new(big.Int).SetString(params["n"], 10)
 		d, ok3 := new(big.Int).SetString(params["d"], 10)
 		if !ok1 || !ok2 || !ok3 {
@@ -163,6 +177,11 @@ func RSA(operation string, params map[string]string) (map[string]string, error) 
 			new(big.Int).Sub(q, bigOne),
 		)
 		e := big.NewInt(65537)
+		if eStr := strings.TrimSpace(params["e"]); eStr != "" {
+			if parsedE, ok := new(big.Int).SetString(eStr, 10); ok {
+				e = parsedE
+			}
+		}
 		d := new(big.Int).ModInverse(e, phi)
 		dStr := "could not compute"
 		if d != nil {

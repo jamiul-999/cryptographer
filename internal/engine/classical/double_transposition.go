@@ -7,22 +7,6 @@ import (
 	"strings"
 )
 
-// DoubleTransposition handles encrypt/decrypt using a row-then-column transposition.
-//
-// key1 controls the ROW permutation  (its length = number of rows in the grid).
-// key2 controls the COLUMN permutation (its length = number of columns in the grid).
-//
-// Encrypt:
-//  1. Replace spaces with 'X', uppercase, pad with 'X' to fill len(key1)×len(key2) grid.
-//  2. Permute rows according to key1 reading order.
-//  3. Permute columns according to key2 reading order.
-//  4. Read off row-by-row → ciphertext.
-//
-// Decrypt reverses both permutations using their inverses.
-//
-// Space ambiguity note: 'X' used as space replacement and padding are
-// indistinguishable from original 'X' characters. Use original_length to
-// strip trailing pad chars exactly; mid-text 'X' chars may be spaces or real X's.
 func DoubleTransposition(operation string, params map[string]string) (map[string]string, error) {
 	op := strings.ToLower(operation)
 
@@ -208,9 +192,9 @@ func DoubleTransposition(operation string, params map[string]string) (map[string
 		}
 
 		return map[string]string{
-			"frequency_table":  strings.TrimRight(tableLines.String(), "\n"),
-			"ioc":              ioStr + ioNote,
-			"mapping_legend":   strings.TrimRight(legendLines.String(), "\n"),
+			"frequency_table":   strings.TrimRight(tableLines.String(), "\n"),
+			"ioc":               ioStr + ioNote,
+			"mapping_legend":    strings.TrimRight(legendLines.String(), "\n"),
 			"guessed_plaintext": guessed.String(),
 			"note": "For transposition ciphers letter frequencies are preserved from the " +
 				"plaintext. A high IoC (≥0.060) confirms transposition. The guessed plaintext " +

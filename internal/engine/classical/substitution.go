@@ -11,7 +11,7 @@ import (
 // englishFreq is the standard English letter frequency order (most → least).
 const englishFreq = "ETAOINSHRDLCUMWFGYPBVKJXQZ"
 
-// Substitution handles encrypt / decrypt / brute / frequency operations
+// Substitution handles encrypt / decrypt / frequency operations
 // for the monoalphabetic substitution cipher.
 func Substitution(operation string, params map[string]string) (map[string]string, error) {
 	op := strings.ToLower(operation)
@@ -38,22 +38,6 @@ func Substitution(operation string, params map[string]string) (map[string]string
 		}
 		decMap := buildDecMap(key)
 		return map[string]string{"plaintext": applyMap(ciphertext, decMap)}, nil
-
-	case "brute":
-		ciphertext := strings.ToUpper(params["ciphertext"])
-		var sb strings.Builder
-		for shift := 0; shift < 26; shift++ {
-			var line strings.Builder
-			for _, ch := range ciphertext {
-				if ch >= 'A' && ch <= 'Z' {
-					line.WriteRune(rune('A' + (int(ch-'A')+shift)%26))
-				} else {
-					line.WriteRune(ch)
-				}
-			}
-			sb.WriteString(fmt.Sprintf("Shift %2d: %s\n", shift, line.String()))
-		}
-		return map[string]string{"brute_force_results": strings.TrimRight(sb.String(), "\n")}, nil
 
 	case "frequency":
 		ciphertext := strings.ToUpper(params["ciphertext"])

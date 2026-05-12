@@ -47,19 +47,6 @@ def handle(operation: str, params: dict) -> dict:
         plaintext  = _apply_map(ciphertext, dec_map)
         return {"plaintext": plaintext}
 
-    elif op == "brute":
-        # Try all 26 Caesar-shift keys
-        ciphertext = params.get("ciphertext", "").upper()
-        results = []
-        for shift in range(26):
-            dec = {
-                string.ascii_uppercase[(i + shift) % 26]: string.ascii_uppercase[i]
-                for i in range(26)
-            }
-            candidate = _apply_map(ciphertext, dec)
-            results.append(f"Shift {shift:2d}: {candidate}")
-        return {"brute_force_results": "\n".join(results)}
-
     elif op == "frequency":
         ciphertext = params.get("ciphertext", "").upper()
         counts     = Counter(ch for ch in ciphertext if ch.isalpha())

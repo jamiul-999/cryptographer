@@ -21,20 +21,43 @@ Ensure you have Go 1.22+ installed and Python 3.
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/cryptographer.git
+git clone https://github.com/jamiul-999/cryptographer.git
 cd cryptographer
 
 # Install dependencies
 go mod tidy
 
-# Build the project
+# Build the project (Linux/macOS)
 make build
 
+# Build the project (Windows)
+go build -o cryptographer.exe ./cmd/cryptographer
+
 # Run the TUI
+## Linux/macOS
 ./cryptographer
+
+## Windows
+./cryptographer.exe
+# OR run without building:
+go run ./cmd/cryptographer
 ```
 
+## Usage
 
+When the application opens, use the following keys:
+- `↑` / `↓` : Navigate algorithms
+- `Enter` : Select algorithm or operation
+- `Tab` : Navigate input form fields
+- `Ctrl+S` : Toggle settings panel
+- `F1` : Toggle help modal
+- `Ctrl+C` : Quit
+
+## Settings
+
+- **Backend**: Choose between `go`, `python`, or `both` (Comparison Mode).
+- **Theme**: Choose between `dark`, `hacker`, and `light`.
+- **Python Bin**: Provide your system's python executable (`python3`).
 
 ## Architecture
 

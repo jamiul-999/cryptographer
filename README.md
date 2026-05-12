@@ -12,8 +12,8 @@ Cryptographer is a full terminal UI application built to demonstrate classical a
   - Double Transposition Cipher
   - DES (Data Encryption Standard)
   - AES-128/192/256
-  - RSA (with Key Generation & Pollard's Rho Factorization Attack)
-  - ECC / ECDH (Elliptic Curve Cryptography)
+  - RSA 
+  - ECC / ECDH (Elliptic Curve Cryptography and Deffie Hellman)
 
 ## Installation
 
@@ -56,8 +56,7 @@ When the application opens, use the following keys:
 ## Settings
 
 - **Backend**: Choose between `go`, `python`, or `both` (Comparison Mode).
-- **Theme**: Choose between `dark`, `hacker`, and `light`.
-- **Python Bin**: Provide your system's python executable (`python3`).
+
 
 ## Architecture
 

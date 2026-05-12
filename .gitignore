@@ -1,0 +1,10 @@
+
+/cryptographer
+.DS_Store
+py/__pycache__/
+*.pyc
+*.pyo
+.config/
+scratch/
+go.work
+go.work.sum

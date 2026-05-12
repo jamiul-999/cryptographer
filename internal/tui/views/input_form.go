@@ -72,7 +72,7 @@ var fieldSets = map[string][]Field{
 	},
 	"rsa/decrypt": {
 		{Label: "Ciphertext (as integer or hex)", Placeholder: "...", Key: "ciphertext"},
-		{Label: "Private key (n)", Placeholder: "...", Key: "n"},
+		{Label: "Public key (n)", Placeholder: "...", Key: "n"},
 		{Label: "Private key (d)", Placeholder: "...", Key: "d"},
 	},
 	"rsa/factorize": {
